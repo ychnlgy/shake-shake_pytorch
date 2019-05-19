@@ -17,7 +17,7 @@ class ShakeBlock(nn.Module):
         self.use_shakeshake = use_shakeshake
         self.act = {
             "relu": lambda d: nn.ReLU(),
-            "linkact": lambda d: polynomial.LinkActivation(0, d, n_degree=3),
+            "linkact": lambda d: polynomial.LinkActivation(2, d, n_degree=3),
             "regact": lambda d: polynomial.RegActivation(2, d, n_degree=3),
         }[act_type]
         self.equal_io = in_ch == out_ch
