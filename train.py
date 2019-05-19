@@ -16,11 +16,8 @@ from models import ShakeResNet, ShakeResNeXt
 
 
 def main(args):
-    train_loader, test_loader = load_dataset(args.label, args.batch_size)
-    if args.label == 10:
-        model = ShakeResNet(args.depth, args.w_base, args.label)
-    else:
-        model = ShakeResNeXt(args.depth, args.w_base, args.cardinary, args.label)
+    train_loader, test_loader, channels = load_dataset(args.label, args.batch_size, args.mnist)
+    model = ShakeResNet(args.depth, args.w_base, args.label, args.use_shakeshake, args.act_type, channels)
     model = torch.nn.DataParallel(model).cuda()
     cudnn.benckmark = True
 
@@ -72,14 +69,19 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--label", type=int, default=10)
     parser.add_argument("--checkpoint", type=str, default="./checkpoint")
+    parser.add_argument("--mnist", type=int)
+    
     # For Networks
     parser.add_argument("--depth", type=int, default=26)
     parser.add_argument("--w_base", type=int, default=64)
     parser.add_argument("--cardinary", type=int, default=4)
+    parser.add_argument("--use_shakeshake", type=int)
+    parser.add_argument("--act_type", type=str)
+    
     # For Training
     parser.add_argument("--lr", type=float, default=0.1)
     parser.add_argument("--weight_decay", type=float, default=0.0001)
-    parser.add_argument("--nesterov", type=bool, default=True)
+    parser.add_argument("--nesterov", type=int, default=1)
     parser.add_argument("--epochs", type=int, default=1800)
     parser.add_argument("--batch_size", type=int, default=128)
     args = parser.parse_args()
