@@ -36,8 +36,8 @@ def load_mnist(batch_size):
                                         ])
     )
 
-    train = torch.utils.data.DataLoader(train, batch_size=batchsize, shuffle=True, num_workers=2)
-    test = torch.utils.data.DataLoader(test, batch_size=batchsize, shuffle=False, num_workers=2)
+    train = torch.utils.data.DataLoader(train, batch_size=batch_size, shuffle=True, num_workers=2)
+    test = torch.utils.data.DataLoader(test, batch_size=batch_size, shuffle=False, num_workers=2)
     
     return train, test, channels
 
