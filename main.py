@@ -5,7 +5,7 @@ def main(repeat):
         for mnist in [1, 0]:
             for act_type in ["relu", "regact", "linkact"]:
                 os.system(
-                    "python3 train.py --mnist %d --act_type %s --use_shakeshake %d --epochs 1" % (
+                    "python3 train.py --mnist %d --act_type %s --use_shakeshake %d --epochs 100" % (
                         mnist, act_type, 1-mnist
                     )
                 )

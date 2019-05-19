@@ -18,7 +18,8 @@ def main(args):
     train_loader, test_loader, channels = load_dataset(args.label, args.batch_size, args.mnist)
     model = ShakeResNet(args.depth, args.w_base, args.label, args.use_shakeshake, args.act_type, channels)
     
-    print("Parameters: %d" % sum(torch.numel(p) for p in model.parameters() if p.requires_grad))
+    params = sum(torch.numel(p) for p in model.parameters() if p.requires_grad)
+    print("Parameters: %d" % params)
     
     model = torch.nn.DataParallel(model).cuda()
     cudnn.benckmark = True
@@ -70,7 +71,7 @@ def main(args):
     
     with open("history.txt", "a") as f:
         command = " ".join(sys.argv)
-        f.write("%s\nFinal test accuracy: %.5f\n" % (command, final_score))
+        f.write("%s\nParameters: %d\nFinal test accuracy: %.5f\n" % (command, params, final_score))
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -89,7 +90,7 @@ if __name__ == "__main__":
     parser.add_argument("--lr", type=float, default=0.1)
     parser.add_argument("--weight_decay", type=float, default=0.0001)
     parser.add_argument("--nesterov", type=int, default=1)
-    parser.add_argument("--epochs", type=int, default=300)
+    parser.add_argument("--epochs", type=int, default=100)
     parser.add_argument("--batch_size", type=int, default=128)
     args = parser.parse_args()
     main(args)
